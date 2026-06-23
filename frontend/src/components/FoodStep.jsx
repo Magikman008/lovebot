@@ -5,16 +5,14 @@ import { FaIcon } from "../lib/faIcons.jsx";
 export function FoodStep({
   canBack,
   copy,
-  error,
   food,
   foodOptions,
   note,
   onBack,
   onFoodChange,
-  onSubmit,
+  onNext,
   setNote,
   setWebsite,
-  status,
   stepIndex,
   totalSteps,
   website,
@@ -35,7 +33,13 @@ export function FoodStep({
         <p>{copy.lead}</p>
       </div>
 
-      <form className="food-form" onSubmit={onSubmit}>
+      <form
+        className="food-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          onNext();
+        }}
+      >
         <div className="food-grid">
           {foodOptions.map((option) => (
             <button
@@ -82,11 +86,9 @@ export function FoodStep({
           />
         </label>
 
-        {error && <p className="form-error">{error}</p>}
-
-        <button className="primary-action" type="submit" disabled={status === "sending"}>
-          <FaIcon name="plane" />
-          {status === "sending" ? "Отправляю..." : copy.button}
+        <button className="primary-action" type="submit">
+          {copy.button}
+          <FaIcon name="arrow" />
         </button>
       </form>
     </CardShell>

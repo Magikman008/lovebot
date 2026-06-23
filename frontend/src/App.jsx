@@ -3,16 +3,19 @@ import { useMemo, useState } from "react";
 import { ConfirmStep } from "./components/ConfirmStep.jsx";
 import { ConfettiRain } from "./components/ConfettiRain.jsx";
 import { DateTimeStep } from "./components/DateTimeStep.jsx";
+import { DressCodeStep } from "./components/DressCodeStep.jsx";
 import { FoodStep } from "./components/FoodStep.jsx";
 import { FloatingDecor } from "./components/FloatingDecor.jsx";
 import { QuestionStep } from "./components/QuestionStep.jsx";
+import { ReviewStep } from "./components/ReviewStep.jsx";
+import { SecretHeart } from "./components/SecretHeart.jsx";
 import { SuccessStep } from "./components/SuccessStep.jsx";
 import { inviteCopy } from "./content.js";
 import { errorText } from "./lib/errors.js";
 import { formatDateRu } from "./lib/format.js";
 
 
-const steps = ["question", "confirm", "dateTime", "food"];
+const steps = ["question", "confirm", "dateTime", "dressCode", "food", "review"];
 const totalSteps = steps.length;
 
 
@@ -21,6 +24,7 @@ function App() {
   const [noClicks, setNoClicks] = useState(0);
   const [date, setDate] = useState(inviteCopy.defaultDate);
   const [time, setTime] = useState(inviteCopy.defaultTime);
+  const [dressCode, setDressCode] = useState(inviteCopy.dressOptions[0].value);
   const [food, setFood] = useState(inviteCopy.foodOptions[0].value);
   const [note, setNote] = useState("");
   const [website, setWebsite] = useState("");
@@ -31,6 +35,11 @@ function App() {
     () => inviteCopy.foodOptions.find((option) => option.value === food) || inviteCopy.foodOptions[0],
     [food],
   );
+  const selectedDressCode = useMemo(
+    () => inviteCopy.dressOptions.find((option) => option.value === dressCode) || inviteCopy.dressOptions[0],
+    [dressCode],
+  );
+  const dateText = formatDateRu(date);
 
   const goToStep = (index) => {
     const nextIndex = Math.max(0, Math.min(totalSteps - 1, index));
@@ -66,6 +75,7 @@ function App() {
           answer: "yes",
           date,
           time,
+          dressCode: selectedDressCode.label,
           food: selectedFood.label,
           note,
           website,
@@ -89,11 +99,13 @@ function App() {
       <div className="pink-noise" aria-hidden="true" />
       <FloatingDecor />
       <ConfettiRain active={status === "sent"} />
+      {status !== "sent" && <SecretHeart copy={inviteCopy.secret} />}
 
       {status === "sent" ? (
         <SuccessStep
           copy={inviteCopy}
-          dateText={formatDateRu(date)}
+          dateText={dateText}
+          dressCode={selectedDressCode}
           food={selectedFood}
           time={time}
         />
@@ -135,11 +147,23 @@ function App() {
               onNext={goNext}
             />
           )}
+          {steps[stepIndex] === "dressCode" && (
+            <DressCodeStep
+              canBack={stepIndex > 0}
+              copy={inviteCopy.dressCode}
+              dressCode={dressCode}
+              dressOptions={inviteCopy.dressOptions}
+              onBack={goBack}
+              onDressCodeChange={setDressCode}
+              onNext={goNext}
+              stepIndex={stepIndex}
+              totalSteps={totalSteps}
+            />
+          )}
           {steps[stepIndex] === "food" && (
             <FoodStep
               canBack={stepIndex > 0}
               copy={inviteCopy.food}
-              error={error}
               food={food}
               foodOptions={inviteCopy.foodOptions}
               note={note}
@@ -147,11 +171,27 @@ function App() {
               onFoodChange={chooseFood}
               setNote={setNote}
               setWebsite={setWebsite}
-              status={status}
               stepIndex={stepIndex}
               totalSteps={totalSteps}
               website={website}
+              onNext={goNext}
+            />
+          )}
+          {steps[stepIndex] === "review" && (
+            <ReviewStep
+              canBack={stepIndex > 0}
+              copy={inviteCopy.review}
+              dateText={dateText}
+              dressCode={selectedDressCode}
+              error={error}
+              food={selectedFood}
+              note={note}
+              onBack={goBack}
               onSubmit={submit}
+              status={status}
+              stepIndex={stepIndex}
+              time={time}
+              totalSteps={totalSteps}
             />
           )}
         </>

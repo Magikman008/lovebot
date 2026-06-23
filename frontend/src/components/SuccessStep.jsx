@@ -1,13 +1,9 @@
 import { FaIcon } from "../lib/faIcons.jsx";
 
 
-export function SuccessStep({ copy, dateText, food, time }) {
+export function SuccessStep({ copy, dateText, dressCode, food, time }) {
   return (
     <section className="date-card success-card" aria-live="polite">
-      <span className="success-badge">
-        <FaIcon name="check" />
-        {copy.success.badge}
-      </span>
       <div className="success-visual" aria-hidden="true">
         <FaIcon name={food.icon} />
         <span>
@@ -17,10 +13,10 @@ export function SuccessStep({ copy, dateText, food, time }) {
       <div className="copy-block">
         <h1>{copy.success.title}</h1>
         <p>
-          {copy.success.leadPrefix} {dateText} в {time}, {copy.success.leadSuffix}
+          {copy.success.leadPrefix} {dateText} в {time}
         </p>
         <p className="success-food">
-          {copy.success.foodPrefix}: {food.label.toLowerCase()}
+          {copy.success.foodPrefix}: {food.label.toLowerCase()}, дресс-код: {dressCode.label.toLowerCase()}
         </p>
       </div>
     </section>

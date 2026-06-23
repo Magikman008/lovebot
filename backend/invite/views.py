@@ -53,6 +53,7 @@ def _submission_message(payload, request):
     from_name = _env_text("INVITE_FROM_NAME", "я")
     selected_date = _clean(payload.get("date"), 40)
     selected_time = _clean(payload.get("time"), 20)
+    dress_code = _clean(payload.get("dressCode"), 80) or "не выбран"
     food = _clean(payload.get("food"), 80)
     note = _clean(payload.get("note"), 800) or "без комментария"
 
@@ -63,6 +64,7 @@ def _submission_message(payload, request):
         f"<b>Ответ:</b> {html.escape(ANSWER_LABELS[answer_code])}",
         f"<b>Дата:</b> {html.escape(_format_date(selected_date))}",
         f"<b>Время:</b> {html.escape(selected_time)}",
+        f"<b>Дресс-код:</b> {html.escape(dress_code)}",
         f"<b>Еда:</b> {html.escape(food)}",
         f"<b>Комментарий:</b> {html.escape(note)}",
         f"<b>IP:</b> {html.escape(_client_ip(request))}",

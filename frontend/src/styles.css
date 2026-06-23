@@ -206,6 +206,11 @@ button:disabled {
   width: min(100%, 460px);
 }
 
+.dress-card,
+.review-card {
+  width: min(100%, 460px);
+}
+
 .step-progress {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -859,12 +864,18 @@ textarea::placeholder {
   transform: translateY(-1px);
 }
 
+.dress-grid,
 .food-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
+.dress-grid {
+  grid-template-columns: 1fr;
+}
+
+.dress-option,
 .food-option {
   min-height: 126px;
   position: relative;
@@ -884,6 +895,27 @@ textarea::placeholder {
     background 160ms ease;
 }
 
+.dress-option {
+  min-height: 86px;
+  grid-template-columns: 52px minmax(0, 1fr);
+  justify-items: start;
+  text-align: left;
+}
+
+.dress-option small {
+  grid-column: 2;
+  margin-top: -8px;
+  color: #9a4a6a;
+  font-size: 0.8rem;
+  line-height: 1.25;
+}
+
+.dress-option > span:not(.dress-icon) {
+  font-weight: 850;
+}
+
+.dress-option:hover,
+.dress-option.selected,
 .food-option:hover,
 .food-option.selected {
   transform: translateY(-2px);
@@ -892,10 +924,12 @@ textarea::placeholder {
   box-shadow: 0 14px 30px rgba(231, 81, 135, 0.16);
 }
 
+.dress-option.selected .dress-icon,
 .food-option.selected .food-icon {
   animation: snack-wiggle 520ms ease both;
 }
 
+.dress-icon,
 .food-icon {
   width: 54px;
   height: 54px;
@@ -906,6 +940,7 @@ textarea::placeholder {
   background: #ffe8f1;
 }
 
+.dress-icon svg,
 .food-icon svg {
   width: 28px;
   height: 28px;
@@ -941,6 +976,67 @@ textarea::placeholder {
   text-align: center;
 }
 
+.review-list {
+  display: grid;
+  gap: 10px;
+}
+
+.review-row,
+.review-note {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+  border: 1px solid rgba(231, 81, 135, 0.16);
+  border-radius: 8px;
+  background: #fff8fb;
+}
+
+.review-row {
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+}
+
+.review-row > span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  color: #e75187;
+  border-radius: 8px;
+  background: #ffe8f1;
+}
+
+.review-row div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.review-row small,
+.review-note small {
+  color: #a23662;
+  font-size: 0.74rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.review-row strong {
+  min-width: 0;
+  color: #38212d;
+  line-height: 1.25;
+}
+
+.review-note p {
+  color: #8d1f45;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.review-actions {
+  display: grid;
+  gap: 12px;
+}
+
 .honeypot {
   position: absolute;
   left: -10000px;
@@ -963,24 +1059,6 @@ textarea::placeholder {
   min-height: 420px;
   justify-content: center;
   text-align: center;
-}
-
-.success-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: fit-content;
-  max-width: 100%;
-  align-self: center;
-  padding: 8px 12px;
-  color: #8d1f45;
-  border: 1px solid rgba(231, 81, 135, 0.18);
-  border-radius: 999px;
-  background: #fff4f9;
-  font-size: 0.84rem;
-  font-weight: 850;
-  animation: chip-pop 420ms ease both;
 }
 
 .success-visual {
@@ -1014,6 +1092,91 @@ textarea::placeholder {
 .success-food {
   color: #e75187;
   font-weight: 800;
+}
+
+.secret-heart {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e75187, #f077aa);
+  box-shadow: 0 12px 28px rgba(231, 81, 135, 0.28);
+  animation: secret-pulse 2.6s ease-in-out infinite;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.secret-heart:hover {
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 16px 34px rgba(231, 81, 135, 0.34);
+}
+
+.secret-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(80, 30, 52, 0.22);
+  animation: content-in 160ms ease both;
+}
+
+.secret-note {
+  width: min(100%, 330px);
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 24px 20px 20px;
+  border: 1px solid rgba(231, 81, 135, 0.2);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 246, 250, 0.98)),
+    #fff;
+  box-shadow: 0 26px 70px rgba(155, 57, 99, 0.24);
+  text-align: center;
+  animation: card-in 260ms cubic-bezier(0.2, 0.82, 0.24, 1) both;
+}
+
+.secret-note > button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: #a23662;
+  border: 0;
+  border-radius: 999px;
+  background: #fff1f7;
+}
+
+.secret-note > span {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  color: #e75187;
+  border-radius: 8px;
+  background: #ffe8f1;
+  animation: heart-pop 1.8s ease-in-out infinite;
+}
+
+.secret-note h2 {
+  margin: 0;
+  color: #38212d;
+  font-size: 1.22rem;
+  line-height: 1.2;
 }
 
 @keyframes card-in {
@@ -1213,6 +1376,16 @@ textarea::placeholder {
   }
 }
 
+@keyframes secret-pulse {
+  0%,
+  100% {
+    filter: saturate(1);
+  }
+  50% {
+    filter: saturate(1.25) brightness(1.06);
+  }
+}
+
 @media (max-width: 520px) {
   .app-shell {
     align-items: start;
@@ -1250,8 +1423,14 @@ textarea::placeholder {
     font-size: 0.95rem;
   }
 
+  .dress-grid,
   .food-grid {
     gap: 10px;
+  }
+
+  .dress-option {
+    min-height: 78px;
+    padding: 12px 10px;
   }
 
   .food-option {
@@ -1290,6 +1469,13 @@ textarea::placeholder {
   .time-column {
     max-height: none;
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .secret-heart {
+    top: 10px;
+    right: 10px;
+    width: 38px;
+    height: 38px;
   }
 }
 
