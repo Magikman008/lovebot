@@ -20,6 +20,7 @@
    - `TELEGRAM_CHAT_ID` - твой личный chat id, не id бота из токена.
    - `TELEGRAM_PROXY_URL` - необязательный прокси для отправки в Telegram.
    - `TELEGRAM_REQUEST_TIMEOUT_SECONDS` - таймаут запроса к Telegram.
+   - `APP_LOG_LEVEL` - уровень логов приложения, по умолчанию `INFO`.
 
 3. Запусти контейнер:
 
@@ -65,6 +66,14 @@ TELEGRAM_HTTPS_PROXY=http://user:password@proxy.example.com:8080
 ```env
 TELEGRAM_PROXY_URL=http://user:password@proxy.example.com:8080
 ```
+
+Логи отправки смотри так:
+
+```bash
+docker compose logs -f invitation
+```
+
+При успешной отправке будет строка `Telegram message sent successfully`. При ошибке будет `Telegram send failed` или `Telegram is not configured` с traceback.
 
 ## Локальная разработка
 

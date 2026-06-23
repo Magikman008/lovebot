@@ -48,17 +48,20 @@ def send_telegram_message(text):
     if not token or not chat_id:
         raise TelegramConfigError("TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID are required")
 
-    response = requests.post(
-        f"https://api.telegram.org/bot{token}/sendMessage",
-        json={
-            "chat_id": chat_id,
-            "text": text,
-            "parse_mode": "HTML",
-            "disable_web_page_preview": True,
-        },
-        proxies=_telegram_proxies(),
-        timeout=_request_timeout(),
-    )
+    try:
+        response = requests.post(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            json={
+                "chat_id": chat_id,
+                "text": text,
+                "parse_mode": "HTML",
+                "disable_web_page_preview": True,
+            },
+            proxies=_telegram_proxies(),
+            timeout=_request_timeout(),
+        )
+    except requests.RequestException as exc:
+        raise RuntimeError(f"Telegram request failed before response: {exc}") from exc
 
     try:
         data = response.json()

@@ -63,3 +63,28 @@ STORAGES = {
 }
 
 WHITENOISE_AUTOREFRESH = DEBUG
+
+APP_LOG_LEVEL = os.getenv("APP_LOG_LEVEL", "INFO").upper()
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "plain": {
+            "format": "%(asctime)s %(levelname)s [%(name)s] %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "plain",
+        },
+    },
+    "loggers": {
+        "invite": {
+            "handlers": ["console"],
+            "level": APP_LOG_LEVEL,
+            "propagate": False,
+        },
+    },
+}

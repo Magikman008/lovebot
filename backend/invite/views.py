@@ -104,13 +104,14 @@ def response_view(request):
     try:
         send_telegram_message(_submission_message(payload, request))
     except TelegramConfigError as exc:
-        logger.warning("Telegram is not configured: %s", exc)
+        logger.warning("Telegram is not configured: %s", exc, exc_info=True)
         return JsonResponse({"ok": False, "error": "telegram_not_configured"}, status=500)
     except RuntimeError as exc:
-        logger.warning("Telegram send failed: %s", exc)
+        logger.warning("Telegram send failed: %s", exc, exc_info=True)
         return JsonResponse({"ok": False, "error": "telegram_failed"}, status=502)
 
     _SUBMISSIONS[ip] = now
+    logger.info("Telegram message sent successfully for ip=%s", ip)
     return JsonResponse({"ok": True})
 
 
