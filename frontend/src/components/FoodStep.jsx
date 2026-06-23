@@ -61,9 +61,7 @@ export function FoodStep({
           ))}
         </div>
 
-        <p className="food-caption">
-          {copy.selectedPrefix}: {selected.label}, {selectedCaption}
-        </p>
+        <p className="food-caption">{selectedCaption}</p>
 
         <label className="note-label">
           <span>Если хочешь что-то добавить</span>

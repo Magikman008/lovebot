@@ -17,8 +17,8 @@ export function QuestionStep({
 }) {
   const [dodgeIndex, setDodgeIndex] = useState(0);
   const reply = copy.noReplies[Math.min(noClicks - 1, copy.noReplies.length - 1)];
-  const noTurnsIntoYes = noClicks >= 3;
-  const noButtonText = noTurnsIntoYes ? "Ладно, да" : reply || copy.no;
+  const noTurnsIntoYes = noClicks >= 5;
+  const noButtonText = noTurnsIntoYes ? "Отказ не принимается)" : reply || copy.no;
 
   const dodgeMouse = (event) => {
     if (event.pointerType === "mouse" && !noTurnsIntoYes) {

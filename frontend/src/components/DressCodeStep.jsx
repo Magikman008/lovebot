@@ -29,7 +29,12 @@ export function DressCodeStep({
       <div className="dress-grid">
         {dressOptions.map((option) => (
           <button
-            className={dressCode === option.value ? "dress-option selected" : "dress-option"}
+            aria-pressed={dressCode === option.value}
+            className={[
+              "dress-option",
+              `dress-option-${option.value}`,
+              dressCode === option.value ? "selected" : "",
+            ].filter(Boolean).join(" ")}
             type="button"
             onClick={() => onDressCodeChange(option.value)}
             key={option.value}
@@ -37,8 +42,15 @@ export function DressCodeStep({
             <span className="dress-icon" aria-hidden="true">
               <FaIcon name={option.icon} />
             </span>
-            <span>{option.label}</span>
-            <small>{option.caption}</small>
+            <span className="dress-copy">
+              <strong>{option.label}</strong>
+              <small>{option.caption}</small>
+            </span>
+            {dressCode === option.value && (
+              <span className="dress-check" aria-hidden="true">
+                <FaIcon name="check" />
+              </span>
+            )}
           </button>
         ))}
       </div>

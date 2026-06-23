@@ -213,8 +213,8 @@ button:disabled {
 
 .step-progress {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(var(--step-count), minmax(0, 1fr));
+  gap: 6px;
   min-height: 22px;
   align-items: center;
 }
@@ -823,7 +823,6 @@ textarea::placeholder {
 }
 
 .time-column {
-  max-height: 156px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 7px;
@@ -896,22 +895,70 @@ textarea::placeholder {
 }
 
 .dress-option {
-  min-height: 86px;
-  grid-template-columns: 52px minmax(0, 1fr);
-  justify-items: start;
+  min-height: 92px;
+  grid-template-columns: 52px minmax(0, 1fr) 28px;
+  align-items: center;
+  justify-items: stretch;
   text-align: left;
+  overflow: hidden;
 }
 
-.dress-option small {
-  grid-column: 2;
-  margin-top: -8px;
+.dress-option::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(255, 255, 255, 0.82), transparent 26%),
+    linear-gradient(135deg, rgba(255, 232, 241, 0.85), rgba(255, 255, 255, 0.36));
+  transition: opacity 160ms ease;
+  pointer-events: none;
+}
+
+.dress-option.selected::before,
+.dress-option:hover::before {
+  opacity: 1;
+}
+
+.dress-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.dress-copy strong {
+  color: #38212d;
+  font-size: 0.95rem;
+  font-weight: 850;
+  line-height: 1.18;
+}
+
+.dress-copy small {
   color: #9a4a6a;
   font-size: 0.8rem;
   line-height: 1.25;
 }
 
-.dress-option > span:not(.dress-icon) {
-  font-weight: 850;
+.dress-check {
+  position: relative;
+  z-index: 1;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  color: #fff;
+  border-radius: 999px;
+  background: #e75187;
+  box-shadow: 0 8px 16px rgba(231, 81, 135, 0.22);
+  animation: check-pop 240ms ease both;
+}
+
+.dress-check svg {
+  width: 13px;
+  height: 13px;
 }
 
 .dress-option:hover,
@@ -924,6 +971,16 @@ textarea::placeholder {
   box-shadow: 0 14px 30px rgba(231, 81, 135, 0.16);
 }
 
+.dress-option-hot.selected,
+.dress-option-hot:hover {
+  border-color: rgba(201, 111, 183, 0.76);
+}
+
+.dress-option-hobo.selected,
+.dress-option-hobo:hover {
+  border-color: rgba(112, 190, 166, 0.72);
+}
+
 .dress-option.selected .dress-icon,
 .food-option.selected .food-icon {
   animation: snack-wiggle 520ms ease both;
@@ -931,6 +988,8 @@ textarea::placeholder {
 
 .dress-icon,
 .food-icon {
+  position: relative;
+  z-index: 1;
   width: 54px;
   height: 54px;
   display: grid;
@@ -938,6 +997,16 @@ textarea::placeholder {
   color: #e75187;
   border-radius: 8px;
   background: #ffe8f1;
+}
+
+.dress-option-hot .dress-icon {
+  color: #c03e8b;
+  background: #fff0f8;
+}
+
+.dress-option-hobo .dress-icon {
+  color: #2f7b63;
+  background: #edfff7;
 }
 
 .dress-icon svg,
@@ -1190,6 +1259,17 @@ textarea::placeholder {
   }
 }
 
+@keyframes check-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.62) rotate(-18deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
 @keyframes rise-confetti {
   from {
     opacity: 0;
@@ -1430,7 +1510,32 @@ textarea::placeholder {
 
   .dress-option {
     min-height: 78px;
-    padding: 12px 10px;
+    grid-template-columns: 48px minmax(0, 1fr) 24px;
+    gap: 9px;
+    padding: 11px 10px;
+  }
+
+  .dress-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .dress-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dress-copy strong {
+    font-size: 0.9rem;
+  }
+
+  .dress-copy small {
+    font-size: 0.76rem;
+  }
+
+  .dress-check {
+    width: 23px;
+    height: 23px;
   }
 
   .food-option {
