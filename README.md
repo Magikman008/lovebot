@@ -18,6 +18,8 @@
    - `INVITE_FROM_NAME` - подпись в Telegram-сообщении.
    - `TELEGRAM_BOT_TOKEN` - токен бота от BotFather.
    - `TELEGRAM_CHAT_ID` - твой личный chat id, не id бота из токена.
+   - `TELEGRAM_PROXY_URL` - необязательный прокси для отправки в Telegram.
+   - `TELEGRAM_REQUEST_TIMEOUT_SECONDS` - таймаут запроса к Telegram.
 
 3. Запусти контейнер:
 
@@ -41,6 +43,28 @@ https://api.telegram.org/bot<TELEGRAM_BOT_TOKEN>/getUpdates
 
 В ответе найди `message.chat.id` и запиши его в `TELEGRAM_CHAT_ID`.
 Если `TELEGRAM_CHAT_ID` совпадает с числом перед двоеточием в `TELEGRAM_BOT_TOKEN`, это id самого бота, а не твой chat id.
+
+### Прокси для Telegram
+
+Если сервер не может напрямую достучаться до `api.telegram.org`, пропиши прокси в `.env`:
+
+```env
+TELEGRAM_PROXY_URL=socks5://user:password@127.0.0.1:1080
+TELEGRAM_REQUEST_TIMEOUT_SECONDS=20
+```
+
+`TELEGRAM_PROXY_URL` применяется и для HTTP, и для HTTPS-запросов. Если нужно разделить прокси по схемам, используй:
+
+```env
+TELEGRAM_HTTP_PROXY=http://user:password@proxy.example.com:8080
+TELEGRAM_HTTPS_PROXY=http://user:password@proxy.example.com:8080
+```
+
+Для обычного HTTP-прокси тоже можно использовать только `TELEGRAM_PROXY_URL`:
+
+```env
+TELEGRAM_PROXY_URL=http://user:password@proxy.example.com:8080
+```
 
 ## Локальная разработка
 
