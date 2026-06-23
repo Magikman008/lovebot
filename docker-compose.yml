@@ -1,0 +1,11 @@
+services:
+  invitation:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_DEBUG: "false"
+      ALLOWED_HOSTS: "*"
+    restart: unless-stopped

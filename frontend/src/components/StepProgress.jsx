@@ -1,0 +1,17 @@
+const stepLabels = ["Вопрос", "План", "Время", "Еда"];
+
+
+export function StepProgress({ current, total }) {
+  return (
+    <div className="step-progress" aria-label={`Шаг ${current + 1} из ${total}`}>
+      {Array.from({ length: total }).map((_, index) => (
+        <span
+          aria-current={index === current ? "step" : undefined}
+          aria-label={stepLabels[index] || `шаг ${index + 1}`}
+          className={index <= current ? "step-dot active" : "step-dot"}
+          key={index}
+        />
+      ))}
+    </div>
+  );
+}
